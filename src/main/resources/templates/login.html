@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<main layout:fragment="content">
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+    <div class="container">
+        <!-- Heading -->
+        <h1>SIGN IN</h1>
+
+        <!-- Links -->
+        <ul class="links">
+            <li>
+                <a href="#" id="signin">SIGN IN</a>
+            </li>
+            <li>
+                <a href="#" id="signup">SIGN UP</a>
+            </li>
+            <li>
+                <a href="#" id="reset">RESET</a>
+            </li>
+        </ul>
+
+        <!-- Form -->
+        <form id="loginForm" action="/user/signup">
+            <!-- email input -->
+            <div class="first-input input__block first-input__block">
+                <input type="email" placeholder="이메일" class="input" id="email" name="email" />
+            </div>
+
+            <!-- name input -->
+            <div class="input__block">
+                <input type="text" placeholder="이름" class="input input_sign_up" id="name" name="name" />
+            </div>
+
+            <!-- phoneNumber input -->
+            <div class="input__block">
+                <input type="number" placeholder="휴대폰번호 (숫자만 입력)" maxlength="11" class="input input_sign_up" id="phoneNumber" name="phoneNumber" />
+            </div>
+
+            <!-- company input -->
+            <div class="input__block">
+                <input type="text" placeholder="회사명" class="input input_sign_up" id="company" name="company" />
+            </div>
+
+            <!-- password input -->
+            <div class="input__block">
+                <input type="password" placeholder="비밀번호" class="input" id="password" name="password" />
+            </div>
+            <!-- repeat password input -->
+            <div class="input__block">
+                <input type="password" placeholder="비밀번호 확인" class="input repeat__password input_sign_up" id="repeatPassword" name="repeatPassword" />
+            </div>
+
+            <!-- sign in button -->
+            <button id="loginBtn" class="signin__btn" type="button">
+                Sign in
+            </button>
+        </form>
+    </div>
+
+    <footer>
+        <p>
+            LINK TO :
+            <a href="https://www.facebook.com/chouaib45" >
+                <i class="fa fa-facebook"></i>
+            </a>
+            <a href="http://twitter.com/chouaibblgn45">
+                <i class="fa fa-twitter"></i>
+            </a>
+            <a href="http://instagram.com/chouaib_blgn">
+                <i class="fa fa-instagram"></i>
+            </a>
+            <a href="http://linkedin.com/in/chouaibblgn/">
+                <i class="fa fa-linkedin"></i>
+            </a>
+            <a href="https://www.behance.net/geek30">
+                <i class="fa fa-behance"></i>
+            </a>
+        </p>
+    </footer>
+    <script type="text/javascript" th:src="@{/js/login.js?ver=1.0}"></script>
+</main>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<main layout:fragment="content">
+    <div class="container-fluid px-4">
+        <!-- 게시물 제목 입력 -->
+        <div class="mb-3">
+            <label for="postTitle" class="form-label">제목</label>
+            <input type="text" class="form-control" id="postTitle" placeholder="제목을 입력하세요">
+        </div>
+
+        <!-- Summernote 텍스트 입력 영역 -->
+        <div class="mb-3">
+            <label for="summernote" class="form-label">내용</label>
+            <textarea id="summernote" name="content" class="form-control" rows="8"></textarea>
+        </div>
+
+        <!-- 첨부된 이미지 목록 -->
+        <div class="mb-3">
+            <label class="form-label">첨부된 이미지</label>
+            <ul id="imageList" class="list-group">
+                <!-- 첨부된 이미지 목록이 여기에 표시됩니다 -->
+                <!-- 예시 이미지 -->
+                <li class="list-group-item">
+                    <span>image1.jpg</span>
+                </li>
+                <li class="list-group-item">
+                    <span>image2.jpg</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 제출 버튼 -->
+        <button class="btn btn-primary" type="submit">게시물 작성</button>
+    </div>
+
+    <!-- summernote -->
+    <script type="text/javascript" src="/summernote/summernote-lite.js"></script>
+    <script type="text/javascript" src="/summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/summernote/summernote-lite.css">
+
+    <script type="text/javascript" th:src="@{/js/boardEdit.js}"></script>
+</main>
+</html>

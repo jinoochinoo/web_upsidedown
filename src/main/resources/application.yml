@@ -1,0 +1,31 @@
+#default
+spring:
+  config:
+    import:
+      - classpath:/yaml/application-dev.yml
+      - classpath:/yaml/application-prod.yml
+  profiles:
+    active: dev
+    group:
+      dev: logging-type-console, logging-level
+      prod: logging-type-file, logging-level
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    mode: HTML
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.28.177.152:3306/upsidedown_db?serverTimezone=Asia/Seoul
+    username: jwsong
+    password: jwsong
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: none # 데이터베이스 초기화 전략
+    properties:
+      hibernate:
+        show_sql: true # 실행되는 쿼리 콘솔 출력
+        format_sql: true # 콘솔창에 출력되는 쿼리를 가동성이 좋게 포맷팅
+      open-in-view: true
