@@ -32,14 +32,26 @@ $(document).ready(function (){
                 }
             },
             // 파일 삭제
-            onMediaDelete: function ($target){
+            onMediaDelete: function (target){
+
+                console.log('target > ', target);
+
                 if(confirm("이미지를 삭제하시겠습니까?")){
-                    let fileName = $target.attr('src').split('/').pop();
-                    deleteFile(fileName);
+                    let savedFileName = target.attr('src').split('/').pop();
+                    
+                    console.log('fileName > ', savedFileName);
+
+                    deleteFile(savedFileName);
+
+                    // 파일명 삭제
+                    removeImageFromList(savedFileName);
                 }
             }
         }
     });
+
+    const writeBtn = document.getElementById('writeBtn');
+    writeBtn.addEventListener('click', handleSubmit);
 });
 
 function imageUpload(file) {
@@ -57,7 +69,10 @@ function imageUpload(file) {
 
             console.log('result > ', result);
 
-            $('#summernote').summernote('insertImage', '/upload/image/' + result.data.savedFileName);          
+            $('#summernote').summernote('insertImage', '/upload/image/' + result.data.savedFileName);
+
+            // 파일명 목록에 추가
+            addImageToList(result.data.savedFileName, result.data.originalFileName);
         },
         error(e) {
             console.log('error : ', e);
@@ -65,9 +80,19 @@ function imageUpload(file) {
     });
 }
 
-function deleteFile(fileName) {
+function addImageToList(savedFileName, originalFileName) {
+    // 새로운 이미지 항목 생성
+    let listItem = `<li class="list-group-item" id=${savedFileName}>
+                        <span>${originalFileName}</span>
+                    </li>`;
+    
+    // 이미지 목록에 추가
+    $('#imageList').append(listItem);
+}
+
+function deleteFile(savedFileName) {
     let formData = new FormData();
-    formData.append('file', fileName);
+    formData.append('fileName', savedFileName);
 
     $.ajax({
         url : '/upload/imageDelete',
@@ -76,5 +101,58 @@ function deleteFile(fileName) {
         contentType : false,
         processData : false,
         encType : 'multipart/form-data'
+    });
+}
+
+function removeImageFromList(savedFileName) {
+    // 해당 파일명과 일치하는 목록 항목 삭제
+    document.getElementById(`#${savedFileName}`).remove();
+}
+
+function handleSubmit() {
+
+    const title = document.getElementById('title').value;
+    const content = $('#summernote').summernote('code');
+
+    // 첨부파일 리스트 수집
+    const imageList = document.getElementById("imageList");
+    const files = [];
+
+    // 이미지 목록에서 파일명을 수집 (이미지는 파일 객체가 아니라 파일명만 필요)
+    for (let i = 0; i < imageList.children.length; i++) {
+        const fileItem = imageList.children[i];
+        const savedFileName = fileItem.id;  // 이미지 파일의 savedFileName을 사용
+        const originalFileName = fileItem.querySelector('span').innerText;
+        
+        // 파일 정보 객체를 배열에 추가
+        files.push({
+            savedFileName: savedFileName,
+            originalFileName: originalFileName
+        });
+    }
+
+    // 서버에 전송할 데이터 준비
+    const boardData = {
+        title: title,
+        content: content,
+        files: files  // files 배열에 각 파일의 정보 객체들 추가
+    };
+ 
+    // JSON 형식으로 서버로 전송
+    fetch('/writeBoard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(boardData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('게시글 작성 성공:', data);
+        alert("게시물이 등록되었습니다.");
+    })
+    .catch(error => {
+        console.error('게시글 작성 실패:', error);
+        alert("게시물 등록에 실패했습니다.");
     });
 }

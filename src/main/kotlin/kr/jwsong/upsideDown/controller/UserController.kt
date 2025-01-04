@@ -27,15 +27,4 @@ class UserController(
         return BaseResponse(message = resultMsg)
     }
 
-    @PostMapping("/signin")
-    fun signIn(@RequestBody @Valid loginDtoRequest: LoginDtoRequest): BaseResponse<Unit> {
-        logger.info("requestBody > $loginDtoRequest")
-
-        // Param Map 형태로 받는 코드
-        //val paramMap: Map<String, Any> = ObjectMapper().readValue(requestBody, HashMap::class.java) as Map<String, Any>
-
-        val resultMsg: String = userService.signIn(loginDtoRequest).toString()
-        return BaseResponse(message = resultMsg)
-    }
-
 }

@@ -33,6 +33,7 @@ class SpringConfiguration(
                 it.requestMatchers("/css/**", "/js/**", "/images/**", "/summernote/**", "/upload/**","/favicon.ico").permitAll()
                 it.requestMatchers("/").anonymous()
                 it.requestMatchers("/register").permitAll()
+                it.requestMatchers("/writeBoard").permitAll()
                 it.requestMatchers("/**").permitAll()
                 //it.requestMatchers("/**").hasAnyRole("ADMIN", "USER")
             }
@@ -42,6 +43,10 @@ class SpringConfiguration(
                     .setMaxInactiveInterval(60 * 60 * 24 * 3), // 세션 만료 시간 (3일)
                 UsernamePasswordAuthenticationFilter::class.java // 로그인 필터가 UsernamePasswordAuthenticationFilter 이후에 실행되도록 설정
             )
+//            .addFilterBefore(
+//                loginFilter(loginSuccessHandler), // LoginFilter가 UsernamePasswordAuthenticationFilter 이전에 실행되지 않도록 설정
+//                UsernamePasswordAuthenticationFilter::class.java // UsernamePasswordAuthenticationFilter가 먼저 실행되도록 설정
+//            )
             .cors{}
             .logout { logout ->
                 logout.logoutUrl("/logout")  // 로그아웃 경로 설정

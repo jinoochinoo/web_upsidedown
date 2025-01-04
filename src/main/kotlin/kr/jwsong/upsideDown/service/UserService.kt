@@ -31,13 +31,4 @@ class UserService (
         return "회원가입에 성공했습니다."
     }
 
-    fun signIn(loginDtoRequest: LoginDtoRequest): User? {
-        val user: User = userRepository.findByEmail(loginDtoRequest.email) ?: return null
-
-        val isMatch = passwordEncoder.matches(loginDtoRequest.password, user.password)
-        if(!isMatch) return null
-
-        return user
-    }
-
 }

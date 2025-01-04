@@ -3,11 +3,7 @@ package kr.jwsong.upsideDown.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(
-    uniqueConstraints = [
-        UniqueConstraint(name = "uk_user_email", columnNames = ["email"])
-    ]
-)
+@Table
 class User(
 
     @Id

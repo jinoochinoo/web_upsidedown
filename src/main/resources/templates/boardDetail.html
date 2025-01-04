@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<main layout:fragment="content">
+    <link th:href="@{/css/boardDetail.css}" rel="stylesheet" />
+    <div class="container-fluid px-4 py-4">
+
+        <!-- 글 상세보기 제목에 이모지 및 스타일 추가 -->
+        <h2 class="custom-heading">📖 공지사항 상세보기</h2>
+
+        <!-- boardId를 보이지 않는 곳에 input 태그로 저장 -->
+        <input type="hidden" id="boardId" th:value="${boardId}" />
+
+        <!-- 수정 및 삭제 버튼 -->
+        <div class="text-end">
+            <a id="editBtn" href="#" class="btn btn-warning">수정</a>
+            <button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>
+        </div>
+
+        <!-- 글 제목 -->
+        <div class="mb-3">
+            <h3 id="title">제목이 들어갈 자리입니다.</h3>
+        </div>
+
+        <!-- 글 내용 -->
+        <div class="mb-3">
+            <div id="content">내용이 들어갈 자리입니다.</div> <!-- 내용을 HTML로 출력 -->
+        </div>
+
+        <!-- 첨부된 이미지 목록 -->
+        <div class="mb-3">
+            <h4>첨부 이미지</h4>
+            <ul id="imageList" class="list-group">
+                <!-- 이미지 목록은 JavaScript로 동적으로 추가됨 -->
+                <li class="list-group-item">첨부된 이미지 파일명</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script th:src="@{/js/boardDetail.js}"></script>
+</main>
+
+</html>

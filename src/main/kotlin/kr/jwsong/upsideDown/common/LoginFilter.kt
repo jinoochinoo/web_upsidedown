@@ -45,6 +45,7 @@ class LoginFilter(
 
             return response.sendRedirect("/main")
         } // 메소드가 POST가 아니거나, 로그인 path와 일치하지 않으면 다음 필터 진행
+        //else if (request.method != HttpMethod.POST.name() || request.requestURI != loginPath) {
         else if (request.method != HttpMethod.POST.name() || request.requestURI != loginPath) {
 
             logger.info("filter 2")

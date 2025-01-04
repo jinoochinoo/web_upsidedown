@@ -1,7 +1,11 @@
 package kr.jwsong.upsideDown.controller
 
+import jakarta.validation.Valid
 import kr.jwsong.upsideDown.common.BaseResponse
 import kr.jwsong.upsideDown.common.enum.ResultCode
+import kr.jwsong.upsideDown.dto.BoardDtoRequest
+import kr.jwsong.upsideDown.entity.Board
+import kr.jwsong.upsideDown.service.BoardService
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
@@ -20,7 +24,9 @@ import java.util.*
 import kotlin.collections.HashMap
 
 @RestController
-class BoardController {
+class BoardController(
+    private val boardService: BoardService
+) {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -47,10 +53,8 @@ class BoardController {
             val savedFileName = UUID.randomUUID().toString() + fileExtension;
             file.transferTo(File(uploadPath.toString(), savedFileName))
 
-            // 파일 시스템 캐시 갱신 (필요시)
-            //Files.newByteChannel(uploadPath, StandardOpenOption.READ);
-
             resultData["savedFileName"] = savedFileName
+            resultData["originalFileName"] = originalFileName
 
         } catch(e: Exception){
             e.printStackTrace()
@@ -61,17 +65,10 @@ class BoardController {
 
 
     @PostMapping("/upload/imageDelete")
-    fun imageDelete(@RequestParam filename: String): BaseResponse<Unit> {
-
-//        val errors = mapOf(ex.fieldName to (ex.message ?: "Not Exception Message"))
-//        return ResponseEntity(BaseResponse(
-//            ResultCode.ERROR.name,
-//            errors,
-//            ResultCode.ERROR.msg
-//        ), HttpStatus.BAD_REQUEST)
+    fun imageDelete(@RequestParam fileName: String): BaseResponse<Unit> {
 
         try {
-            val path: Path = Paths.get(uploadPath.toString(), filename)
+            val path: Path = Paths.get(uploadPath.toString(), fileName)
             Files.delete(path)
         } catch(e: Exception) {
             e.printStackTrace()
@@ -95,4 +92,43 @@ class BoardController {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
+
+    @PostMapping("/writeBoard")
+    fun writeBoard(@RequestBody @Valid boardDtoRequest: BoardDtoRequest): Board {
+        logger.info("writeBoard > $boardDtoRequest")
+        return boardService.writeBoard(boardDtoRequest)
+    }
+
+    // BoardRequest 클래스 정의
+    data class BoardRequest(val boardId: Long)
+
+    @PostMapping("/getBoard")
+    fun getBoardDetail(@RequestBody boardRequest: BoardRequest): ResponseEntity<Board> {
+
+        val boardId = boardRequest.boardId
+        logger.info("getBoardDetail > $boardId")
+
+        val board = boardService.getBoardById(boardId)
+        return if (board != null) {
+            ResponseEntity(board, HttpStatus.OK)
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @PostMapping("/deleteBoard")
+    fun deleteBoard(@RequestBody boardRequest: BoardRequest): ResponseEntity<Void> {
+
+        logger.info("writeBoard > $boardRequest")
+
+        val boardId = boardRequest.boardId
+        logger.info("getBoardDetail > $boardId")
+
+        return if (boardService.deleteBoard(boardId)) {
+            ResponseEntity(HttpStatus.NO_CONTENT)  // 삭제 성공
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)  // 게시글을 찾을 수 없음
+        }
+    }
+
 }

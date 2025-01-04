@@ -1,5 +1,6 @@
 package kr.jwsong.upsideDown.controller
 
+import kr.jwsong.upsideDown.service.BoardService
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
@@ -7,9 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-class ViewController {
+class ViewController(
+    private val boardService: BoardService
+) {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -65,6 +70,18 @@ class ViewController {
         logger.info("ViewController > boardEdit")
         model.addAttribute("isSidebarToggled", false)
         return "boardEdit"
+    }
+
+    @GetMapping("/boardDetail")
+    fun boardDetail(@RequestParam boardId: Long, model: Model): String{
+        logger.info("ViewController > boardDetail")
+
+        // boardId
+        model.addAttribute("boardId", boardId)
+
+        // 사이드바 토글 상태
+        model.addAttribute("isSidebarToggled", false)
+        return "boardDetail"
     }
 
 }
