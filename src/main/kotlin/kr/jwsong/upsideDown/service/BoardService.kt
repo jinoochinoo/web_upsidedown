@@ -1,6 +1,7 @@
 package kr.jwsong.upsideDown.service
 
 import jakarta.transaction.Transactional
+import kr.jwsong.upsideDown.common.exception.BoardNotFoundException
 import kr.jwsong.upsideDown.dto.BoardDtoRequest
 import kr.jwsong.upsideDown.dto.FileData
 import kr.jwsong.upsideDown.entity.AttachFile
@@ -49,7 +50,7 @@ class BoardService (
         logger.info("board > finish")
 
         // 첨부파일 저장
-        val savedFiles = saveAttachFiles(boardDtoRequest.files, savedBoard)
+        val savedFiles = saveAttachFiles(savedBoard, boardDtoRequest.files)
 
         // AttachFile 엔티티 저장
         savedFiles.forEach { attachFileRepository.save(it) }
@@ -57,7 +58,7 @@ class BoardService (
         return savedBoard
     }
 
-    private fun saveAttachFiles(files: List<FileData>,board: Board): List<AttachFile> {
+    private fun saveAttachFiles(board: Board, files: List<FileData>): List<AttachFile> {
         val savedFiles = mutableListOf<AttachFile>()
 
 
@@ -75,9 +76,51 @@ class BoardService (
         return savedFiles
     }
 
+    fun updateBoard(boardDtoRequest: BoardDtoRequest): Board {
+        // 1. 게시글 조회 (수정할 게시글 찾기)
+        val board = boardRepository.findById(boardDtoRequest.id!!)
+            .orElseThrow { BoardNotFoundException("게시글을 찾을 수 없습니다.") }
+
+        // 2. 수정된 제목과 내용 반영
+        board.title = boardDtoRequest.title
+        board.content = boardDtoRequest.content
+
+        // 3. 기존 첨부파일 삭제 처리 (필요한 경우)
+        removeOldAttachFiles(board)
+
+        // 4. 새로운 첨부파일 저장
+        val savedFiles = saveAttachFiles(board, boardDtoRequest.files)
+
+        // 5. AttachFile 엔티티 저장 (새로 추가된 파일들)
+        savedFiles.forEach { attachFileRepository.save(it) }
+
+        // 6. 게시글 정보 업데이트
+        val updatedBoard = boardRepository.save(board)
+
+        logger.info("BoardService > updateBoard > finished")
+
+        return updatedBoard
+    }
+
+    private fun removeOldAttachFiles(board: Board) {
+        // 기존 게시글에 첨부된 파일들을 삭제
+        val existingFiles = attachFileRepository.findByBoard(board)
+
+        // 파일이 있을 경우, 삭제
+        existingFiles.forEach {
+            attachFileRepository.delete(it)
+        }
+    }
+
     // 게시글 조회 기능
     fun getBoardById(id: Long): Board? {
-        return boardRepository.findById(id).orElse(null) // 게시글이 없으면 null 반환
+        val board = boardRepository.findById(id).orElse(null)
+        board?.let {
+            it.incrementViewCount()  // 조회수 증가
+            boardRepository.save(it) // 변경된 Board 객체 저장
+        }
+
+        return board
     }
 
     // 게시글 삭제
@@ -117,6 +160,26 @@ class BoardService (
          *         }.orElse(false)  // 게시글이 없으면 삭제 실패
          *     }
          */
+    }
+
+    fun getBoardList(): List<BoardDtoRequest> {
+        // 게시글 목록 조회 및 각 게시글에 대해 DTO 변환
+        return boardRepository.findAll().map { board ->
+            // BoardDtoRequest 변환
+            BoardDtoRequest(
+                id = board.id,
+                title = board.title,
+                content = board.content,
+                files = board.attachFiles.map { attachFile ->
+                    // AttachFile을 FileData로 변환
+                    FileData(
+                        savedFileName = attachFile.savedFileName,
+                        originalFileName = attachFile.originalFileName
+                    )
+                },
+                viewCnt = board.viewCnt
+            )
+        }
     }
 
 }

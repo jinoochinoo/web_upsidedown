@@ -19,9 +19,15 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 <!--                    <li><a class="dropdown-item" href="#!">Settings</a></li>-->
 <!--                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>-->
-                    <li><a class="dropdown-item" href="/userInfo">userInfo</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li>
+                        <a class="dropdown-item" href="/userInfo" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">사용자 목록</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"/>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/logout">로그아웃</a>
+                    </li>
                 </ul>
             </li>
         </ul>

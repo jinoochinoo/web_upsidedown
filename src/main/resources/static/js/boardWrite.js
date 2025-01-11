@@ -50,7 +50,7 @@ $(document).ready(function (){
         }
     });
 
-    const editBtn = document.getElementById('editBtn');
+    const writeBtn = document.getElementById('writeBtn');
     writeBtn.addEventListener('click', handleSubmit);
 });
 
@@ -139,7 +139,7 @@ function handleSubmit() {
     };
  
     // JSON 형식으로 서버로 전송
-    fetch('/updateBoard', {
+    fetch('/insertBoard', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -148,12 +148,12 @@ function handleSubmit() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('게시글 수정 성공:', data);
-        alert("게시물이 수정되었습니다.");
+        console.log('게시글 작성 성공:', data);
+        alert("게시물이 등록되었습니다.");
         window.location.href = '/boardList';
     })
     .catch(error => {
-        console.error('게시글 수정 실패:', error);
-        alert("게시물 수정에 실패했습니다.");
+        console.error('게시글 작성 실패:', error);
+        alert("게시물 등록에 실패했습니다.");
     });
 }

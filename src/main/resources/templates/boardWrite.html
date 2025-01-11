@@ -3,18 +3,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
 <main layout:fragment="content">
-    <link th:href="@{/css/boardEdit.css}" rel="stylesheet" />
+    <link th:href="@{/css/boardWrite.css}" rel="stylesheet" />
     <div class="container-fluid px-4 py-4">
 
         <!-- 공지사항 제목에 이모지 및 스타일 추가 -->
-        <h2 class="custom-heading">📝 공지사항 수정</h2>
-
-        <!-- boardId를 보이지 않는 곳에 input 태그로 저장 -->
-        <input type="hidden" id="boardId" th:value="${boardId}" />
+        <h2 class="custom-heading">📝 공지사항 작성</h2>
 
         <!-- 제출 버튼 -->
         <div class="text-end">
-            <button type="button" class="btn btn-primary" id="editBtn">수정</button>
+            <button type="button" class="btn btn-primary" id="writeBtn">저장</button>
         </div>
 
         <!-- 게시물 제목 입력 -->
@@ -42,6 +39,6 @@
     <script type="text/javascript" src="/summernote/lang/summernote-ko-KR.js"></script>
     <link rel="stylesheet" href="/summernote/summernote-lite.css">
 
-    <script type="text/javascript" th:src="@{/js/boardEdit.js}"></script>
+    <script type="text/javascript" th:src="@{/js/boardWrite.js}"></script>
 </main>
 </html>

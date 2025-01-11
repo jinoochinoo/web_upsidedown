@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
+
+            console.log('data > ', data);
+
             // 데이터 성공적으로 받아오면 화면 세팅
             setBoardDetail(data);
         })
@@ -35,6 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function setBoardDetail(board) {
         // 제목 설정
         document.querySelector('h3').innerText = board.title;
+
+        // 이메일, 작성일, 조회수 세팅
+        document.getElementById('email').innerText = `${board.email}`; // 이메일 설정
+        document.getElementById('createdAt').innerText = `${board.createdAt.substring(0, 10)}`; // 작성일 설정
+        document.getElementById('viewCount').innerText = `👁️ ${board.viewCnt}`; // 조회수 설정
+
 
         // 내용 설정 (HTML로 출력)
         document.getElementById('content').innerHTML = board.content;
@@ -61,12 +70,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 삭제 버튼의 데이터-id 속성 설정 (삭제 기능에 사용)
         const deleteBtn = document.getElementById('deleteBtn');
-        
-        // 삭제 버튼 클릭 시 동작
         deleteBtn.addEventListener('click', function() {
             if (confirm('정말로 삭제하시겠습니까?')) {
                 deleteBoard(boardId);
             }
+        });
+
+        const listBtn = document.getElementById('listBtn');
+        listBtn.addEventListener('click', function() {
+            window.location.href = '/boardList';
+        });
+
+        const editBtn = document.getElementById('editBtn');
+        editBtn.addEventListener('click', function() {
+            const boardId = document.getElementById('boardId').value;
+            window.location.href = `/boardEdit?boardId=${boardId}`;
         });
     }
 

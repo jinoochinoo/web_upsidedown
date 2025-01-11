@@ -99,6 +99,12 @@ class BoardController(
         return boardService.writeBoard(boardDtoRequest)
     }
 
+    @PostMapping("/updateBoard")
+    fun updateBoard(@RequestBody @Valid boardDtoRequest: BoardDtoRequest): Board {
+        logger.info("updateBoard > $boardDtoRequest")
+        return boardService.updateBoard(boardDtoRequest)
+    }
+
     // BoardRequest 클래스 정의
     data class BoardRequest(val boardId: Long)
 
@@ -119,16 +125,21 @@ class BoardController(
     @PostMapping("/deleteBoard")
     fun deleteBoard(@RequestBody boardRequest: BoardRequest): ResponseEntity<Void> {
 
-        logger.info("writeBoard > $boardRequest")
+        logger.info("deleteBoard > $boardRequest")
 
         val boardId = boardRequest.boardId
-        logger.info("getBoardDetail > $boardId")
+        logger.info("boardId > $boardId")
 
         return if (boardService.deleteBoard(boardId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)  // 삭제 성공
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)  // 게시글을 찾을 수 없음
         }
+    }
+
+    @PostMapping("/getBoardList")
+    fun getBoardList(): List<BoardDtoRequest> {
+        return boardService.getBoardList()
     }
 
 }

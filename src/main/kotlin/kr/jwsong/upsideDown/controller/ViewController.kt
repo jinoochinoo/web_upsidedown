@@ -48,6 +48,13 @@ class ViewController(
                 val userDetails = authentication.principal as UserDetails
                 logger.info("User Password: ${userDetails.password}")
             }
+
+            authentication.let{
+                logger.info("ROLE > ${it.authorities}")
+                logger.info("EMAIL > ${it.name}")
+                model.addAttribute("userEmail", it.name)
+            }
+
         } else {
             // 인증되지 않은 경우
             logger.warn("No authentication found in SecurityContextHolder.")
@@ -55,6 +62,7 @@ class ViewController(
 
         logger.info("ViewController > main")
         model.addAttribute("isSidebarToggled", true)
+
         return "main"
     }
 
@@ -65,9 +73,21 @@ class ViewController(
         return "userInfo"
     }
 
+    @GetMapping("/boardWrite")
+    fun boardWrite(model: Model): String{
+        logger.info("ViewController > boardWrite")
+        model.addAttribute("isSidebarToggled", false)
+        return "boardWrite"
+    }
+
     @GetMapping("/boardEdit")
-    fun boardEdit(model: Model): String{
+    fun boardEdit(@RequestParam boardId: Long, model: Model): String{
         logger.info("ViewController > boardEdit")
+
+        // boardId
+        model.addAttribute("boardId", boardId)
+
+        // 사이드바 토글 상태
         model.addAttribute("isSidebarToggled", false)
         return "boardEdit"
     }
@@ -82,6 +102,21 @@ class ViewController(
         // 사이드바 토글 상태
         model.addAttribute("isSidebarToggled", false)
         return "boardDetail"
+    }
+
+    @GetMapping("/boardList")
+    fun boardList(model: Model): String{
+        logger.info("ViewController > boardList")
+        model.addAttribute("isSidebarToggled", false)
+
+        val authentication = SecurityContextHolder.getContext().authentication
+        authentication.let{
+            logger.info("ROLE > ${it.authorities}")
+            logger.info("EMAIL > ${it.name}")
+            model.addAttribute("userEmail", it.name)
+        }
+
+        return "boardList"
     }
 
 }

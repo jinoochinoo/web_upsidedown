@@ -15,13 +15,21 @@
 
         <!-- 수정 및 삭제 버튼 -->
         <div class="text-end">
-            <a id="editBtn" href="#" class="btn btn-warning">수정</a>
-            <button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>
+            <button type="button" id="listBtn" class="btn btn-primary">목록</button>
+            <button type="button" id="editBtn" class="btn btn-warning">수정</button>
+            <button type="button" id="deleteBtn" class="btn btn-danger">삭제</button>
         </div>
 
         <!-- 글 제목 -->
-        <div class="mb-3">
+        <div class="mb-4">
             <h3 id="title">제목이 들어갈 자리입니다.</h3>
+        </div>
+
+        <!-- 글 정보 -->
+        <div class="text-end mb-3">
+            <span id="email"></span>
+            <span id="createdAt"></span>
+            <span id="viewCount"></span>
         </div>
 
         <!-- 글 내용 -->

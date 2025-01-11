@@ -1,0 +1,11 @@
+.custom-heading {
+    font-size: 2rem;                /* 제목 크기 설정 */
+    font-weight: bold;              /* 제목 두껍게 */
+    color: #4e73df;                 /* 제목 색상 설정 (블루 계열) */
+    padding: 10px 20px;             /* 상하 10px, 좌우 20px 패딩 추가 */
+    background-color: #f8f9fc;      /* 배경색 (부드러운 회색) */
+    border-radius: 10px;            /* 둥근 모서리 */
+    display: inline-block;          /* 제목을 인라인 블록으로 만들어 패딩과 배경색 적용 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* 부드러운 그림자 추가 */
+    margin-bottom: 20px;
+}

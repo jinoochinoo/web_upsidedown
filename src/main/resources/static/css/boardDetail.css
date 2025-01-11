@@ -9,3 +9,29 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* 부드러운 그림자 추가 */
     margin-bottom: 20px;
 }
+
+/* 글 정보 스타일 */
+.text-end {
+    text-align: right; /* 오른쪽 정렬 */
+    font-size: 1.5rem;  /* 폰트 크기 */
+    color: #555; /* 글자 색상 */
+}
+
+/* 각 span 사이에 경계를 추가 */
+.text-end span {
+    display: inline-block;  /* 인라인 블록으로 설정 */
+    margin-left: 15px;       /* 각 span 간 간격 */
+    padding: 3px 8px;        /* 내부 여백 */
+}
+
+/* 첫 번째 span은 왼쪽 간격을 없앰 */
+.text-end span:first-child {
+    margin-left: 0;
+}
+
+/* span 사이에 경계를 추가 */
+.text-end span:not(:last-child)::after {
+    content: '|'; /* 구분 기호: | */
+    margin-left: 10px; /* 구분 기호와 텍스트 사이 간격 */
+    color: #ddd; /* 구분 기호 색상 */
+}

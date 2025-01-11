@@ -1,0 +1,71 @@
+.custom-heading {
+    font-size: 2rem;                /* 제목 크기 설정 */
+    font-weight: bold;              /* 제목 두껍게 */
+    color: #4e73df;                 /* 제목 색상 설정 (블루 계열) */
+    padding: 10px 20px;             /* 상하 10px, 좌우 20px 패딩 추가 */
+    background-color: #f8f9fc;      /* 배경색 (부드러운 회색) */
+    border-radius: 10px;            /* 둥근 모서리 */
+    display: inline-block;          /* 제목을 인라인 블록으로 만들어 패딩과 배경색 적용 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* 부드러운 그림자 추가 */
+    margin-bottom: 20px;
+}
+
+/* 카드 이미지를 적절하게 맞추기 */
+.card-img-top {
+    object-fit: contain;
+    width: 100%;
+    height: 200px;
+}
+
+/* 카드 행의 flex 레이아웃 설정 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 각 카드가 flex 컨테이너 안에서 고르게 배치되도록 설정 */
+.row > div[class*='col-'] {
+    display: flex;
+    justify-content: center; /* 카드들을 가운데 정렬 */
+}
+
+/* 카드 hover 효과 */
+.card {
+    transition: transform 0.3s ease;
+    border: none;
+    width: 100%;
+}
+
+.card:hover {
+    transform: scale(1.05); /* 마우스 오버 시 살짝 커지도록 */
+}
+
+/* 반응형 디자인을 위한 @media 조건 추가 */
+
+/* 작은 화면(모바일)에서 카드 높이를 상대적으로 설정 */
+@media (min-width: 576px) {
+    .card-img-top {
+        height: 30vw; /* 화면 너비에 비례하여 높이 설정 */
+    }
+}
+
+/* 중간 화면 크기에서 카드 이미지 높이 조정 */
+@media (min-width: 768px) {
+    .card-img-top {
+        height: 25vw;
+    }
+}
+
+/* 큰 화면에서 카드 이미지 높이 더 줄이기 */
+@media (min-width: 992px) {
+    .card-img-top {
+        height: 20vw;
+    }
+}
+
+/* 최대 화면 크기에서 카드 이미지 높이 최소화 */
+@media (min-width: 1200px) {
+    .card-img-top {
+        height: 15vw;
+    }
+}

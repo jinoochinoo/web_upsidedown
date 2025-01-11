@@ -26,21 +26,18 @@ data class BoardDtoRequest (
 
     @field:NotBlank(message = "제목을 입력하세요!")
     @JsonProperty("title")
-    private val _title: String,
+    val title: String,
 
     @field:NotBlank(message = "내용을 입력하세요!")
     @JsonProperty("content")
-    private val _content: String,
+    val content: String,
 
     // 파일 정보가 포함된 리스트
     @JsonProperty("files")
-    val files: List<FileData>
-) {
+    val files: List<FileData>,
 
-    val title: String
-        get() = _title
-    val content: String
-        get() = _content
+    val viewCnt: Long
+) {
     val email: String
         get() = SecurityContextHolder.getContext().authentication.name
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layouts/default}">
+
+<main layout:fragment="content">
+    <link th:href="@{/css/boardList.css}" rel="stylesheet" />
+    <script th:src="@{/js/boardList.js}"></script>
+    <div class="container-fluid px-4 py-4">
+        <h2 class="custom-heading">📝 공지사항 목록</h2>
+
+        <!-- 쓰기 버튼 -->
+        <div class="text-end">
+            <button type="button" class="btn btn-warning" id="writeBtn"
+                    th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">작성</button>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row" id="board-list">
+                <!-- 게시글 카드들이 여기에 동적으로 추가됩니다 -->
+            </div>
+        </div>
+    </div>
+</main>
+
+</html>
