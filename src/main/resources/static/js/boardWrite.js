@@ -35,17 +35,14 @@ $(document).ready(function (){
             onMediaDelete: function (target){
 
                 console.log('target > ', target);
-
-                if(confirm("이미지를 삭제하시겠습니까?")){
-                    let savedFileName = target.attr('src').split('/').pop();
+                let savedFileName = target.attr('src').split('/').pop();
                     
-                    console.log('fileName > ', savedFileName);
+                console.log('fileName > ', savedFileName);
 
-                    deleteFile(savedFileName);
+                deleteFile(savedFileName);
 
-                    // 파일명 삭제
-                    removeImageFromList(savedFileName);
-                }
+                // 파일명 삭제
+                removeImageFromList(savedFileName);
             }
         }
     });
@@ -139,7 +136,7 @@ function handleSubmit() {
     };
  
     // JSON 형식으로 서버로 전송
-    fetch('/insertBoard', {
+    fetch('/writeBoard', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

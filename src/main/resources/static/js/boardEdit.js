@@ -1,3 +1,5 @@
+const boardId = document.getElementById('boardId').value;
+
 $(document).ready(function (){
 
     // textarea summernote 적용하기
@@ -35,24 +37,80 @@ $(document).ready(function (){
             onMediaDelete: function (target){
 
                 console.log('target > ', target);
-
-                if(confirm("이미지를 삭제하시겠습니까?")){
-                    let savedFileName = target.attr('src').split('/').pop();
+                let savedFileName = target.attr('src').split('/').pop();
                     
-                    console.log('fileName > ', savedFileName);
+                console.log('fileName > ', savedFileName);
 
-                    deleteFile(savedFileName);
+                deleteFile(savedFileName);
 
-                    // 파일명 삭제
-                    removeImageFromList(savedFileName);
-                }
+                // 파일명 삭제
+                removeImageFromList(savedFileName);
             }
         }
     });
 
     const editBtn = document.getElementById('editBtn');
-    writeBtn.addEventListener('click', handleSubmit);
+    editBtn.addEventListener('click', handleSubmit);
+
+    // 페이지 로딩 시 게시글 상세 정보 가져오기
+    getBoardDetail(boardId);
 });
+
+// 게시글 상세 정보를 가져오는 함수
+function getBoardDetail(boardId) {
+    // API 호출
+    fetch('/getBoard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            boardId: boardId
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('게시글을 찾을 수 없습니다.');
+        }
+        return response.json();
+    })
+    .then(data => {
+
+        console.log('data > ', data);
+
+        // 데이터 성공적으로 받아오면 화면 세팅
+        setBoardDetail(data);
+    })
+    .catch(error => {
+        console.error('Error fetching board detail:', error);
+        alert('게시글 정보를 불러오는 데 실패했습니다.');
+    });
+}
+
+// 게시글 상세 정보를 화면에 세팅하는 함수
+function setBoardDetail(board) {
+    // 제목 설정
+    document.getElementById('title').value = board.title;
+
+    // 내용 설정 (summernote로 초기화)
+    $('#summernote').summernote('code', board.content);
+
+    // 첨부 이미지 목록 세팅
+    const imageList = document.getElementById('imageList');
+    imageList.innerHTML = ''; // 이전 항목들 초기화
+
+    if (board.attachFiles && board.attachFiles.length > 0) {
+        board.attachFiles.forEach(file => {
+            const listItem = document.createElement('li');
+            listItem.id = file.savedFileName;
+            listItem.classList.add('list-group-item');
+            const fileName = document.createElement('span');
+            fileName.innerText = file.originalFileName; // 이미지 파일명
+            listItem.appendChild(fileName);
+            imageList.appendChild(listItem);
+        });
+    }
+}
 
 function imageUpload(file) {
     let formData = new FormData();
@@ -133,6 +191,7 @@ function handleSubmit() {
 
     // 서버에 전송할 데이터 준비
     const boardData = {
+        id: boardId,
         title: title,
         content: content,
         files: files  // files 배열에 각 파일의 정보 객체들 추가

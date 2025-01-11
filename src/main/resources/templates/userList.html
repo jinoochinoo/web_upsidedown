@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<main layout:fragment="content">
+    <link th:href="@{/css/userList.css}" rel="stylesheet" />
+    <script th:src="@{/js/userList.js}"></script>
+
+    <!-- DataTables CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+
+    <div class="container-fluid px-4 py-4">
+        <h2 class="custom-heading">📝 사용자 목록</h2>
+
+        <div class="text-end">
+            <button type="button" class="btn btn-warning" id="updateBtn">수정</button>
+        </div>
+
+        <!-- 테이블 -->
+        <div class="container mt-4">
+            <table id="userTable" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>이메일</th>
+                    <th>이름</th>
+                    <th>전화번호</th>
+                    <th>회사</th>
+                    <th>권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 사용자 목록이 여기에 동적으로 삽입됩니다. -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- User Edit Modal -->
+    <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userEditModalLabel">사용자 정보 수정</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userEditForm">
+                        <input type="hidden" class="form-control" id="userId">
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">이메일</label>
+                            <input type="email" class="form-control" id="userEmail" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="userName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">전화번호</label>
+                            <input type="text" class="form-control" id="userPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userCompany" class="form-label">회사</label>
+                            <input type="text" class="form-control" id="userCompany">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userRole" class="form-label">권한</label>
+                            <select class="form-select" id="userRole">
+                                <option value="NONE">NONE</option>
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveChangesBtn">변경사항 저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+</html>

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // URL에서 게시글 ID를 추출 (예: /board/detail/{id})
     const boardId = document.getElementById('boardId').value;
 
     // 게시글 상세 정보를 가져오는 함수
@@ -55,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (board.attachFiles && board.attachFiles.length > 0) {
             board.attachFiles.forEach(file => {
                 const listItem = document.createElement('li');
+                listItem.id = file.savedFileName;
                 listItem.classList.add('list-group-item');
                 const fileName = document.createElement('span');
                 fileName.innerText = file.originalFileName; // 이미지 파일명

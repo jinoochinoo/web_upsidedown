@@ -10,6 +10,17 @@
     margin-bottom: 20px;
 }
 
-.note-group-image-url{
-    display:none;
+/* 페이지네이션을 오른쪽에 정렬 */
+nav[aria-label="pagination"] {
+    float: right;
+    padding: 12px;
+}
+
+/* DataTables의 정렬 화살표 숨기기 */
+.dt-column-order {
+    visibility: hidden !important; /* 요소 숨기기 */
+}
+
+#userEmail {
+    background-color: lightgrey;
 }

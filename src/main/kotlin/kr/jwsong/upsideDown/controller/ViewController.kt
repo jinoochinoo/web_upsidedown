@@ -66,11 +66,19 @@ class ViewController(
         return "main"
     }
 
-    @GetMapping("/userInfo")
+    @GetMapping("/userList")
     fun userInfo(model: Model): String{
-        logger.info("ViewController > userInfo")
+        logger.info("ViewController > userList")
         model.addAttribute("isSidebarToggled", false)
-        return "userInfo"
+
+        val authentication = SecurityContextHolder.getContext().authentication
+        authentication.let{
+            logger.info("ROLE > ${it.authorities}")
+            logger.info("EMAIL > ${it.name}")
+            model.addAttribute("userEmail", it.name)
+        }
+
+        return "userList"
     }
 
     @GetMapping("/boardWrite")

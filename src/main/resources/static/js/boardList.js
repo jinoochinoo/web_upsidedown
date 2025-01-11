@@ -90,7 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchBoardList();
 
     const writeBtn = document.getElementById('writeBtn');
-    writeBtn.addEventListener('click', function() {
-        window.location.href = '/boardWrite';
-    });
+    if(writeBtn){
+        writeBtn.addEventListener('click', function() {
+            window.location.href = '/boardWrite';
+        });
+    }
+    
 });

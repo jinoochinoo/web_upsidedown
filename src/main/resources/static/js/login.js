@@ -63,8 +63,6 @@ $(document).ready(function() {
 
         // 회원가입
         if (loginBtn.innerText == 'Sign up') {
-            alert('Sign up');
-
             const passwordValue = document.getElementById('password').value;
             const passwordChkValue = document.getElementById('repeatPassword').value;
             if(passwordValue != passwordChkValue) {
@@ -103,8 +101,6 @@ $(document).ready(function() {
         } 
         // 로그인
         else if (loginBtn.innerText == 'Sign in') {
-            alert('Sign in')
-
             const formData = new FormData(document.getElementById('loginForm'));
             const formObject = {};
             formData.forEach((value, key) => {

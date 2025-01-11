@@ -14,19 +14,19 @@ class User(
     val email: String,
 
     @Column(nullable = false, length = 30)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false, length = 30)
-    val phoneNumber: String,
+    var phoneNumber: String,
 
     @Column(nullable = false, length = 30)
-    val company: String,
+    var company: String,
 
     @Column(nullable = false, length = 100)
     var password: String,
 
     @Column(nullable = false, length = 30)
-    val role: String
+    var role: String
 
 ): BaseEntity() {
 

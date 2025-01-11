@@ -20,7 +20,7 @@
 <!--                    <li><a class="dropdown-item" href="#!">Settings</a></li>-->
 <!--                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>-->
                     <li>
-                        <a class="dropdown-item" href="/userInfo" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">사용자 목록</a>
+                        <a class="dropdown-item" href="/userList" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">사용자 목록</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"/>
