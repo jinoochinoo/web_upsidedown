@@ -21,7 +21,6 @@ class ViewController(
     @GetMapping("/")
     fun login(model: Model): String{
         logger.info("ViewController > login")
-        model.addAttribute("isSidebarToggled", true)
         return "login"
     }
 
@@ -61,15 +60,13 @@ class ViewController(
         }
 
         logger.info("ViewController > main")
-        model.addAttribute("isSidebarToggled", true)
 
-        return "main"
+        return "boardList"
     }
 
     @GetMapping("/userList")
     fun userInfo(model: Model): String{
         logger.info("ViewController > userList")
-        model.addAttribute("isSidebarToggled", false)
 
         val authentication = SecurityContextHolder.getContext().authentication
         authentication.let{
@@ -84,7 +81,6 @@ class ViewController(
     @GetMapping("/boardWrite")
     fun boardWrite(model: Model): String{
         logger.info("ViewController > boardWrite")
-        model.addAttribute("isSidebarToggled", false)
         return "boardWrite"
     }
 
@@ -95,8 +91,6 @@ class ViewController(
         // boardId
         model.addAttribute("boardId", boardId)
 
-        // 사이드바 토글 상태
-        model.addAttribute("isSidebarToggled", false)
         return "boardEdit"
     }
 
@@ -107,15 +101,12 @@ class ViewController(
         // boardId
         model.addAttribute("boardId", boardId)
 
-        // 사이드바 토글 상태
-        model.addAttribute("isSidebarToggled", false)
         return "boardDetail"
     }
 
     @GetMapping("/boardList")
     fun boardList(model: Model): String{
         logger.info("ViewController > boardList")
-        model.addAttribute("isSidebarToggled", false)
 
         val authentication = SecurityContextHolder.getContext().authentication
         authentication.let{

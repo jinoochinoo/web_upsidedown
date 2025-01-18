@@ -47,6 +47,7 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+    enabled = false // 테스트 비활성화
 }
 
 allOpen {

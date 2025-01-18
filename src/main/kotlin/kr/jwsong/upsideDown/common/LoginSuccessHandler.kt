@@ -50,7 +50,7 @@ class LoginSuccessHandler: AuthenticationSuccessHandler {
             logger.info("No authorities assigned")
         }
 
-        val baseUrl = request?.serverName + request?.serverPort;
+        //val baseUrl = request?.serverName + request?.serverPort;
         if(authorities != null){
             when (authorities.joinToString { it.authority }.substring(5)) {
                 ROLE.USER.toString() ->  response?.sendRedirect("/main")

@@ -76,7 +76,7 @@ $(document).ready(function() {
                     formObject[key] = value;
             });
             
-            fetch(`${baseUrl}/register`, {
+            fetch(`/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ $(document).ready(function() {
                 }
             });
             
-            fetch(`${baseUrl}/login`, {
+            fetch(`/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

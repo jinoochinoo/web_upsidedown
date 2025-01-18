@@ -52,7 +52,7 @@ data class UserDtoRequest (
     @field:NotBlank
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private val _role: String = ROLE.ADMIN.toString()
+    private val _role: String = ROLE.NONE.toString()
 
 ) {
 
